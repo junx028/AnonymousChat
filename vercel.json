@@ -27,10 +27,5 @@
       "src": "/(.*)",
       "dest": "public/$1"
     }
-  ],
-  "env": {
-    "BOT_TOKEN": "@bot-token",
-    "GITHUB_TOKEN": "@github-token",
-    "GIST_ID": "@gist-id"
-  }
+  ]
 }
