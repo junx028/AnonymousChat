@@ -1,0 +1,19 @@
+{
+  "name": "anonymous-telegram-bot",
+  "version": "2.0.0",
+  "description": "Anonymous User-to-User Telegram Bot - Wajib Join @LeguminY",
+  "main": "api/webhook.js",
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "keywords": ["telegram", "bot", "anonymous", "chat"],
+  "author": "@LeguminY",
+  "license": "MIT"
+}
