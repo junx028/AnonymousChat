@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Anonymous Chat Bot | @LeguminY</title>
+    
+    <!-- SEO Meta -->
+    <meta name="description" content="Bot Telegram anonymous chat - kirim pesan rahasia ke orang random. Wajib join @LeguminY. 100% anonymous, random pairing, kirim foto & file.">
+    <meta name="keywords" content="anonymous chat, telegram bot, chat rahasia, random chat, anonim, leguminy">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="🤖 Anonymous Chat Bot | @LeguminY">
+    <meta property="og:description" content="Kirim pesan rahasia ke orang random secara anonymous. Wajib join @LeguminY">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://YOUR_VERCEL_URL.vercel.app">
+    <meta name="theme-color" content="#8a2be2">
+    
+    <style>
+        :root {
+            --bg: #0a0a14;
+            --card: #12122a;
+            --purple: #8a2be2;
+            --pink: #e4405f;
+            --blue: #0088cc;
+            --text: #e0e0e0;
+            --text-secondary: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Stars Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            border-radius: 25px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.5);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--purple), var(--pink), #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .tagline {
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 18px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(138, 43, 226, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .icon-purple { background: rgba(138, 43, 226, 0.2); }
+        .icon-pink { background: rgba(228, 64, 95, 0.2); }
+        .icon-blue { background: rgba(0, 136, 204, 0.2); }
+        .icon-green { background: rgba(40, 167, 69, 0.2); }
+        .icon-yellow { background: rgba(255, 193, 7, 0.2); }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            padding: 16px 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        /* User List */
+        .user-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.9rem;
+        }
+
+        .user-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .dot-online { background: #28a745; animation: pulse-dot 1.5s infinite; }
+        .dot-searching { background: #ffc107; animation: pulse-dot 1s infinite; }
+        .dot-chatting { background: #17a2b8; }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .status-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue), #00a8ff);
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 136, 204, 0.35);
+            font-size: 1.15rem;
+            padding: 18px;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 15px 40px rgba(0, 136, 204, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-channel {
+            background: linear-gradient(135deg, #2b5278, #3a6d99);
+            color: white;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .btn-channel:hover {
+            box-shadow: 0 8px 25px rgba(43, 82, 120, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Channel Highlight */
+        .channel-box {
+            background: linear-gradient(135deg, rgba(0,136,204,0.15), rgba(0,136,204,0.05));
+            border: 1px solid rgba(0,136,204,0.3);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .channel-box h3 {
+            color: var(--blue);
+            font-size: 1.3rem;
+        }
+
+        .channel-box .warning {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        /* Feature list */
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check {
+            color: #28a745;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--purple), var(--pink));
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        .footer a {
+            color: var(--purple);
+            text-decoration: none;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(138, 43, 226, 0.3);
+            border-radius: 2px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 10px;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.7rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+            .stat-item {
+                padding: 12px 6px;
+            }
+            .stat-value {
+                font-size: 1.3rem;
+            }
+            .container {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Stars -->
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">🤖</div>
+            <h1>Anonymous Chat Bot</h1>
+            <p class="tagline">Kirim Pesan Rahasia • Tanpa Identitas</p>
+        </div>
+
+        <!-- CHANNEL BOX -->
+        <div class="channel-box">
+            <p style="color:#aaa; font-size:0.8rem;">⚠️ <strong>WAJIB JOIN CHANNEL</strong></p>
+            <h3>📢 @LeguminY</h3>
+            <p class="warning">Bot hanya berfungsi setelah kamu join channel di atas</p>
+            <a href="https://t.me/LeguminY" target="_blank" class="btn btn-channel">
+                🔗 Join Channel Dulu
+            </a>
+        </div>
+
+        <!-- MAIN BUTTON -->
+        <a href="https://t.me/YOUR_BOT_USERNAME" target="_blank" class="btn btn-primary" style="margin-bottom: 18px;">
+            🚀 START BOT SEKARANG
+        </a>
+
+        <!-- LIVE STATS -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon icon-green">📊</span>
+                Statistik Live
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalUsers">-</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="activeChats">-</div>
+                    <div class="stat-label">Chat Aktif</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="totalMessages">-</div>
+                    <div class="stat-label">Pesan</div>
+                </div>
+            </div>
+            <div class="stats-grid" style="margin-top: 10px; grid-template-columns: repeat(2, 1fr);">
+                <div class="stat-item">
+                    <div class="stat-value" id="queueCount">-</div>
+                    <div class="stat-label">Mencari Partner</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="activeToday">-</div>
+                    <div class="stat-label">Aktif Hari Ini</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ONLINE USERS -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon icon-blue">👥</span>
+                User Online Sekarang
+            </div>
+            <div class="user-list" id="userList">
+                <div class="loading">Memuat data...</div>
+            </div>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon icon-purple">✨</span>
+                Fitur Bot
+            </div>
+            <ul class="feature-list">
+                <li><span class="check">✓</span> Anonymous 100% — Identitas dirahasiakan</li>
+                <li><span class="check">✓</span> Random Pairing — Otomatis cari teman</li>
+                <li><span class="check">✓</span> Kirim Text — Pesan rahasia</li>
+                <li><span class="check">✓</span> Kirim Foto — Upload ke Catbox</li>
+                <li><span class="check">✓</span> Kirim File — Dokumen apapun</li>
+                <li><span class="check">✓</span> Skip / Stop — Kontrol penuh</li>
+                <li><span class="check">✓</span> Wajib Join @LeguminY</li>
+            </ul>
+        </div>
+
+        <!-- COMMANDS -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon icon-pink">💬</span>
+                Perintah Bot
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem;">
+                <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <span style="color:#8a2be2;">/start</span>
+                    <span style="color:#aaa;">Mulai bot</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <span style="color:#8a2be2;">/find</span>
+                    <span style="color:#aaa;">Cari partner</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <span style="color:#8a2be2;">/skip</span>
+                    <span style="color:#aaa;">Skip partner</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+                    <span style="color:#8a2be2;">/stop</span>
+                    <span style="color:#aaa;">Akhiri chat</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; padding:8px 0;">
+                    <span style="color:#8a2be2;">/stats</span>
+                    <span style="color:#aaa;">Statistik</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="divider"></div>
+            <p>© 2024 <a href="https://t.me/LeguminY" target="_blank">@LeguminY</a></p>
+            <p style="margin-top:4px; color:#444;">Powered by Vercel • Anonymous Chat System</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Generate Stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 60; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 1;
+            star.style.cssText = `
+                width: ${size}px;
+                height: ${size}px;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                animation-delay: ${Math.random() * 3}s;
+                animation-duration: ${Math.random() * 2 + 1}s;
+            `;
+            starsContainer.appendChild(star);
+        }
+
+        // Fetch Live Stats
+        async function fetchStats() {
+            try {
+                const res = await fetch('/api/stats');
+                const json = await res.json();
+                
+                if (json.success) {
+                    const d = json.data;
+                    
+                    // Update stats
+                    document.getElementById('totalUsers').textContent = d.totalUsers.toLocaleString();
+                    document.getElementById('activeChats').textContent = d.queueLength;
+                    document.getElementById('totalMessages').textContent = d.totalMessages >= 1000 ? 
+                        (d.totalMessages/1000).toFixed(1) + 'K' : 
+                        d.totalMessages;
+                    document.getElementById('queueCount').textContent = d.queueLength;
+                    document.getElementById('activeToday').textContent = d.activeToday;
+                    
+                    // Update user list
+                    const userList = document.getElementById('userList');
+                    if (d.onlineUsers && d.onlineUsers.length > 0) {
+                        userList.innerHTML = d.onlineUsers.map(user => {
+                            let dotClass = 'dot-online';
+                            let statusText = 'Online';
+                            
+                            if (user.status === 'searching') {
+                                dotClass = 'dot-searching';
+                                statusText = 'Mencari...';
+                            } else if (user.status === 'chatting') {
+                                dotClass = 'dot-chatting';
+                                statusText = 'Chatting';
+                            }
+                            
+                            return `
+                                <div class="user-item">
+                                    <span>👤 ${escapeHtml(user.username)}</span>
+                                    <div class="user-status">
+                                        <span class="status-dot ${dotClass}"></span>
+                                        <span class="status-text">${statusText}</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        userList.innerHTML = '<div class="loading">Belum ada user online</div>';
+                    }
+                }
+            } catch (error) {
+                console.error('Gagal fetch stats:', error);
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Fetch setiap 5 detik
+        fetchStats();
+        setInterval(fetchStats, 5000);
+    </script>
+
+</body>
+</html>
